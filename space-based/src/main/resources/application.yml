@@ -1,0 +1,76 @@
+spring:
+  application:
+    name: space-based-energy
+
+  # Redis = the "space"
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      timeout: 5s
+
+  # DB for alert history (async persistence)
+  datasource:
+    url: ${DATABASE_URL:jdbc:h2:mem:alerts;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE}
+    username: ${DATABASE_USER:sa}
+    password: ${DATABASE_PASSWORD:}
+    driver-class-name: ${DATABASE_DRIVER:org.h2.Driver}
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+
+# Space configuration
+app:
+  space:
+    # Rolling window: keep last N minutes of prices per node (for spike detection)
+    price-window-minutes: 15
+    # Alert TTL: if condition clears, alert key expires (reservation pattern)
+    alert-ttl-seconds: 300
+    # Spike threshold: price above this multiple of recent average triggers alert
+    spike-threshold-multiplier: 2.0
+  persistence:
+    # Batch size for flushing alert history to DB
+    batch-size: 100
+    poll-interval-ms: 2000
+
+server:
+  port: ${PORT:8080}
+
+# Actuator + Prometheus + OpenTelemetry
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      show-details: when_authorized
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  otlp:
+    tracing:
+      # App uses OTLP HTTP (not gRPC). Collector HTTP port is 4318; gRPC is 4317. Use 4318.
+      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4318}
+
+# SpringDoc / Swagger UI
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+  show-actuator: false

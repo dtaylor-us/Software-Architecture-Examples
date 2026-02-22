@@ -1,0 +1,21 @@
+# Prometheus config for Space-Based Energy API observability.
+# Scrapes the app's /actuator/prometheus. When the app runs on the host, use host.docker.internal.
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'space-based-energy'
+    metrics_path: /actuator/prometheus
+    static_configs:
+      # App on host (e.g. ./mvnw spring-boot:run)
+      - targets: ['host.docker.internal:8080']
+        labels:
+          service: 'space-based-energy'
+    scrape_interval: 10s
+
+  # Optional: scrape Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']

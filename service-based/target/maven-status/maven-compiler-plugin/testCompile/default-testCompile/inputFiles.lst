@@ -1,0 +1,5 @@
+/Users/derektaylor/projects/software-architectures/service-based/src/test/java/com/gridops/forecast/ForecastServiceTest.java
+/Users/derektaylor/projects/software-architectures/service-based/src/test/java/com/gridops/pricing/PricingServiceTest.java
+/Users/derektaylor/projects/software-architectures/service-based/src/test/java/com/gridops/alert/AlertServiceTest.java
+/Users/derektaylor/projects/software-architectures/service-based/src/test/java/com/gridops/outage/OutageServiceTest.java
+/Users/derektaylor/projects/software-architectures/service-based/src/test/java/com/gridops/audit/AuditServiceTest.java

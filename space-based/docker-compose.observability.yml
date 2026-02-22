@@ -1,0 +1,49 @@
+# Observability: Prometheus, Grafana, OpenTelemetry Collector, Jaeger
+# Start: docker compose -f docker-compose.yml -f docker-compose.observability.yml up -d
+# Ensure the app is running on host:8080 (Prometheus scrapes host.docker.internal:8080)
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.48.1
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.enable-lifecycle
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  grafana:
+    image: grafana/grafana:10.2.3
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ALLOW_EMBEDDING: "true"
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_SERVER_HTTP_PORT: "3000"
+    volumes:
+      - ./observability/grafana/provisioning:/etc/grafana/provisioning:ro
+    depends_on:
+      - prometheus
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.96.0
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./observability/otel-collector/otel-collector-config.yaml:/etc/otel-collector-config.yaml:ro
+    ports:
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
+    depends_on:
+      - jaeger
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.53
+    ports:
+      - "16686:16686"   # Jaeger UI (traces)
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    # OTLP received by otel-collector; collector forwards to Jaeger internally
