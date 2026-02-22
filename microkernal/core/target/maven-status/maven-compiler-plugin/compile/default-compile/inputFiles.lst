@@ -1,0 +1,5 @@
+/Users/derektaylor/projects/software-architectures/core/src/main/java/com/gridops/microkernel/core/event/GridOpsEvent.java
+/Users/derektaylor/projects/software-architectures/core/src/main/java/com/gridops/microkernel/core/discovery/PluginDiscovery.java
+/Users/derektaylor/projects/software-architectures/core/src/main/java/com/gridops/microkernel/core/contract/RulePlugin.java
+/Users/derektaylor/projects/software-architectures/core/src/main/java/com/gridops/microkernel/core/alert/Alert.java
+/Users/derektaylor/projects/software-architectures/core/src/main/java/com/gridops/microkernel/core/engine/AlertRuleEngine.java

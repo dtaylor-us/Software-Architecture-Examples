@@ -1,0 +1,11 @@
+com/gridops/microkernel/host/EvaluateController$AddPluginRequest.class
+com/gridops/microkernel/host/EvaluateController$AlertDto.class
+com/gridops/microkernel/host/PluginRegistry.class
+com/gridops/microkernel/host/EvaluateRequest.class
+com/gridops/microkernel/host/EvaluateController$PluginInfo.class
+com/gridops/microkernel/host/HostApplication.class
+com/gridops/microkernel/host/EvaluateController$ErrorResponse.class
+com/gridops/microkernel/host/EvaluateController$EvaluateResponse.class
+com/gridops/microkernel/host/AlertRuleEngineConfig.class
+com/gridops/microkernel/host/EvaluateController.class
+com/gridops/microkernel/host/EvaluateController$PluginsResponse.class
